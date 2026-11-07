@@ -1,0 +1,10 @@
+{
+  "name": "streamdrop",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Paste a direct video link, get a shareable player (speed, volume, Discord embed).",
+  "scripts": {
+    "dev": "node dev-server.mjs"
+  }
+}

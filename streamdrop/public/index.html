@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="dark">
+<title>StreamDrop · Paste a video link, get a player</title>
+<meta name="description" content="Paste a direct video link and get a shareable player with speed and volume controls. Embeds inline in Discord.">
+<meta property="og:title" content="StreamDrop">
+<meta property="og:description" content="Paste a video link, get a shareable player.">
+<meta name="theme-color" content="#09090b">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/site.css">
+</head>
+<body>
+<svg class="sprite" width="0" height="0" aria-hidden="true" focusable="false">
+  <symbol id="i-copy" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M9 9h11v11H9zM5 15V4h11"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path fill="currentColor" d="M8 5.14v13.72a1 1 0 0 0 1.5.86l11-6.86a1 1 0 0 0 0-1.72l-11-6.86A1 1 0 0 0 8 5.14z"/></symbol>
+</svg>
+
+<header class="topbar">
+  <a class="brand" href="/"><span class="dot"></span>StreamDrop</a>
+</header>
+
+<main class="home">
+  <h1>Paste a video link.<br><span class="accent">Get a player.</span></h1>
+  <p class="lead">Instant shareable player with speed and volume controls. Works on phone and PC, and embeds inline in Discord. No upload, no account.</p>
+
+  <form id="form" class="card" novalidate>
+    <label class="field" for="url">Video link</label>
+    <div class="inputrow">
+      <input id="url" name="url" type="url" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://example.com/video.mp4" required>
+      <button class="btn" type="submit" id="go">Create link</button>
+    </div>
+    <p class="error" id="error" role="alert" hidden></p>
+
+    <details class="opts">
+      <summary>Options</summary>
+      <div class="grid">
+        <label>Title <input id="title" type="text" maxlength="120" placeholder="Shown in the Discord embed"></label>
+        <label>Start at <input id="start" type="text" inputmode="numeric" placeholder="0:30 or 90"></label>
+        <label>Default speed
+          <select id="speed">
+            <option value="">Normal (1×)</option>
+            <option value="0.5">0.5×</option>
+            <option value="1.25">1.25×</option>
+            <option value="1.5">1.5×</option>
+            <option value="2">2×</option>
+            <option value="3">3×</option>
+          </select>
+        </label>
+        <label>Thumbnail link <input id="thumb" type="url" inputmode="url" placeholder="https://…/preview.jpg (optional)"></label>
+      </div>
+      <label class="check"><input id="loop" type="checkbox"> Loop video</label>
+      <label class="check"><input id="proxy" type="checkbox"> Always stream through this site <span class="muted">(use if the source blocks playback)</span></label>
+    </details>
+  </form>
+
+  <section class="card result" id="result" hidden aria-live="polite">
+    <div class="status" id="status"></div>
+    <label class="field" for="outLink">Your player link</label>
+    <div class="inputrow">
+      <input id="outLink" type="text" readonly>
+      <button class="btn" type="button" id="copyOut"><svg><use href="#i-copy"/></svg><span>Copy</span></button>
+    </div>
+    <div class="actions">
+      <a class="btn ghost" id="openOut" href="#" target="_blank" rel="noopener"><svg><use href="#i-play"/></svg><span>Open player</span></a>
+    </div>
+    <p class="note">Paste this link in Discord and it embeds with its own player (play, volume, fullscreen). Speed control lives on the player page, because Discord only supports plain video embeds.</p>
+  </section>
+
+  <section class="history" id="historyBox" hidden>
+    <div class="hhead"><h2>Recent links</h2><button class="link" id="clearHistory" type="button">Clear</button></div>
+    <ul id="history"></ul>
+  </section>
+
+  <footer class="foot">
+    <p>Works with direct links: <b>.mp4</b> <b>.webm</b> <b>.mov</b> and <b>.m3u8</b> streams. Dropbox and Google Drive share links are converted automatically. YouTube, TikTok and similar page links are not direct video files.</p>
+  </footer>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="/home.js" defer></script>
+</body>
+</html>
